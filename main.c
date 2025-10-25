@@ -4,10 +4,17 @@
 #include <float.h>
 
 #define MAX_CITIES 35
+#define NUM_VEHICLES 3
 
 char cities[MAX_CITIES][50];
 int distance[MAX_CITIES][MAX_CITIES];
 int cityCount=0;
+
+char vehicleType[NUM_VEHICLES][20]= {"Van","Truck","Lorry"};
+int capacity[NUM_VEHICLES]= {1000,5000,10000};
+int ratePerKm[NUM_VEHICLES]= {30,40,80};
+int avgSpeed[NUM_VEHICLES]= {60,50,45};
+int fuelEfficiency[NUM_VEHICLES]= {12,6,4};
 
 void addCity(char cities[MAX_CITIES][50]);
 void showCity(char cities[MAX_CITIES][50]);
@@ -15,6 +22,8 @@ void renameCity(char cities[MAX_CITIES][50]);
 void removeCity(char cities[MAX_CITIES][50]);
 void inputEditDistance(int distance[MAX_CITIES][MAX_CITIES]);
 void showDistance(int distance[MAX_CITIES][MAX_CITIES]);
+void storeVehicles(char vehicleType[NUM_VEHICLES][20],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
+
 
 int main()
 {
@@ -30,8 +39,8 @@ int main()
         printf("\n--Distance Management--\n");
         printf("5.Input Or Edit Distance\n");
         printf("6.Show Distance\n");
-        printf("\n");
-        printf("7.\n");
+        printf("\n--Vehicle Management--\n");
+        printf("7.Store Vehicles\n");
         printf("\n");
         printf("8.\n");
         printf("9.\n");
@@ -67,6 +76,7 @@ int main()
             break;
 
         case 7:
+            storeVehicles(vehicleType,capacity,ratePerKm,avgSpeed,fuelEfficiency);
             break;
 
         case 8:
@@ -116,6 +126,7 @@ void addCity(char cities[MAX_CITIES][50])
 void showCity(char cities[MAX_CITIES][50])
 {
     printf("\n----List Of Cities----\n");
+    printf("======================\n");
     for(int i=0; i<cityCount; i++)
     {
         printf("%d.%s\n",i,cities[i]);
@@ -240,6 +251,20 @@ void showDistance(int distance[MAX_CITIES][MAX_CITIES])
         printf("\n\n");
     }
 }
+void storeVehicles(char vehicleType[NUM_VEHICLES][20],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES])
+{
+    printf("\n\n");
+    printf("| No | Vehicle | Capacity(kg) |Rate Per km(LKR) | Avg speed(km/h) | Fuel Efficiency(km/l) |");
+    printf("\n===========================================================================================\n");
+    for(int i=0; i<NUM_VEHICLES; i++)
+    {
+        printf("| %-2d | %-7s | %-12d | %-12d    | %-12d    | %-12d          |\n",i+1,vehicleType[i],capacity[i],ratePerKm[i],avgSpeed[i],fuelEfficiency[i]);
+
+
+    }
+
+}
+
 
 
 
