@@ -9,6 +9,7 @@ char cities[MAX_CITIES][50];
 int cityCount=0;
 
 void addCity(char cities[MAX_CITIES][50]);
+void showCity(char cities[MAX_CITIES][50]);
 
 int main()
 {
@@ -18,7 +19,7 @@ int main()
         printf("\n====LOGISTICS MANAGEMENT SYSTEM====\n");
         printf("\n--City Management--\n");
         printf("1.Add City\n");
-        printf("2.\n");
+        printf("2.Show City\n");
         printf("3.\n");
         printf("4.\n");
         printf("\n");
@@ -41,6 +42,7 @@ int main()
             break;
 
         case 2:
+            showCity(cities);
             break;
 
         case 3:
@@ -102,6 +104,15 @@ void addCity(char cities[MAX_CITIES][50])
     cityCount++;
     printf("City '%s' added successfully!(city ID:%d)\n",newCity,cityCount-1);
 }
+void showCity(char cities[MAX_CITIES][50])
+{
+    printf("\n----List Of Cities----\n");
+    for(int i=0; i<cityCount; i++)
+    {
+        printf("%d.%s\n",i,cities[i]);
+    }
+}
+
 
 
 
