@@ -14,6 +14,7 @@ void showCity(char cities[MAX_CITIES][50]);
 void renameCity(char cities[MAX_CITIES][50]);
 void removeCity(char cities[MAX_CITIES][50]);
 void inputEditDistance(int distance[MAX_CITIES][MAX_CITIES]);
+void showDistance(int distance[MAX_CITIES][MAX_CITIES]);
 
 int main()
 {
@@ -28,7 +29,7 @@ int main()
         printf("4.Remove City\n");
         printf("\n--Distance Management--\n");
         printf("5.Input Or Edit Distance\n");
-        printf("6.\n");
+        printf("6.Show Distance\n");
         printf("\n");
         printf("7.\n");
         printf("\n");
@@ -62,6 +63,7 @@ int main()
             break;
 
         case 6:
+            showDistance(distance);
             break;
 
         case 7:
@@ -218,6 +220,27 @@ void inputEditDistance(int distance[MAX_CITIES][MAX_CITIES])
     distance[src][dest]=distance[dest][src]=d;
     printf("Distance Updated!\n");
 }
+void showDistance(int distance[MAX_CITIES][MAX_CITIES])
+{
+    printf("\n\t\tDistance Table\n");
+    printf("City         ");
+
+    for(int i=0; i<cityCount; i++)
+    {
+        printf("%-12s  ",cities[i]);
+    }
+    printf("\n------------------------------------------------------------------\n");
+    for(int j=0; j<cityCount; j++)
+    {
+        printf("%-12s  ",cities[j]);
+        for(int i=0; i<cityCount; i++)
+        {
+            printf("%-12d  ",distance[i][j]);
+        }
+        printf("\n\n");
+    }
+}
+
 
 
 
