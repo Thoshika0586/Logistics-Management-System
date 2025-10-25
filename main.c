@@ -10,6 +10,7 @@ int cityCount=0;
 
 void addCity(char cities[MAX_CITIES][50]);
 void showCity(char cities[MAX_CITIES][50]);
+void renameCity(char cities[MAX_CITIES][50]);
 
 int main()
 {
@@ -20,7 +21,7 @@ int main()
         printf("\n--City Management--\n");
         printf("1.Add City\n");
         printf("2.Show City\n");
-        printf("3.\n");
+        printf("3.Rename City\n");
         printf("4.\n");
         printf("\n");
         printf("5.\n");
@@ -46,6 +47,7 @@ int main()
             break;
 
         case 3:
+            renameCity(cities);
             break;
 
         case 4:
@@ -112,6 +114,30 @@ void showCity(char cities[MAX_CITIES][50])
         printf("%d.%s\n",i,cities[i]);
     }
 }
+void renameCity(char cities[MAX_CITIES][50])
+{
+    char newName[50];
+    int cityId;
+
+    if(cityCount==0)
+    {
+        printf("No cities available to rename!\n");
+        return;
+    }
+    printf("Enter city ID to rename:");
+    scanf("%d",&cityId);
+
+    if(cityId<0||cityId>=cityCount)
+    {
+        printf("Invalid city ID!\n");
+        return;
+    }
+    printf("Enter new city name:");
+    scanf("%s",newName);
+    strcpy(cities[cityId],newName);
+    printf("City renamed successfully!\n");
+}
+
 
 
 
