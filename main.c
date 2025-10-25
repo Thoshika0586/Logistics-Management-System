@@ -5,16 +5,34 @@
 
 #define MAX_CITIES 35
 #define NUM_VEHICLES 3
+#define FUEL_PRICE 310.0  //LKR per liter
+
 
 char cities[MAX_CITIES][50];
 int distance[MAX_CITIES][MAX_CITIES];
 int cityCount=0;
+int deliveryCount=0;
+
 
 char vehicleType[NUM_VEHICLES][20]= {"Van","Truck","Lorry"};
 int capacity[NUM_VEHICLES]= {1000,5000,10000};
 int ratePerKm[NUM_VEHICLES]= {30,40,80};
 int avgSpeed[NUM_VEHICLES]= {60,50,45};
 int fuelEfficiency[NUM_VEHICLES]= {12,6,4};
+
+int sourceCity[MAX_DELIVERIES];
+int destinationCity[MAX_DELIVERIES];
+int weight[MAX_DELIVERIES];
+int vehicleId[MAX_DELIVERIES];
+float deliveryCost[MAX_DELIVERIES];
+float deliveryTime[MAX_DELIVERIES];
+float fuelUsed[MAX_DELIVERIES];
+float fuelCost[MAX_DELIVERIES];
+float totalCost[MAX_DELIVERIES];
+float profit[MAX_DELIVERIES];
+float customerCharge[MAX_DELIVERIES];
+
+
 
 void addCity(char cities[MAX_CITIES][50]);
 void showCity(char cities[MAX_CITIES][50]);
