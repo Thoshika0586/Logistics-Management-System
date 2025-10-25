@@ -8,6 +8,8 @@
 char cities[MAX_CITIES][50];
 int cityCount=0;
 
+void addCity(char cities[MAX_CITIES][50]);
+
 int main()
 {
     int choice;
@@ -15,7 +17,7 @@ int main()
     {
         printf("\n====LOGISTICS MANAGEMENT SYSTEM====\n");
         printf("\n--City Management--\n");
-        printf("1.\n");
+        printf("1.Add City\n");
         printf("2.\n");
         printf("3.\n");
         printf("4.\n");
@@ -35,6 +37,7 @@ int main()
         switch(choice)
         {
         case 1:
+            addCity(cities);
             break;
 
         case 2:
@@ -77,5 +80,28 @@ int main()
 
     return 0;
 }
+void addCity(char cities[MAX_CITIES][50])
+{
+    char newCity[50];
+    if(cityCount>=MAX_CITIES)
+    {
+        printf("Maximum number of cities reached!\n");
+        return;
+    }
+    printf("Enter city name:");
+    scanf("%s",newCity);
+    for(int i=0; i<cityCount; i++)
+    {
+        if(strcmp(cities[i],newCity)==0)
+        {
+            printf("City already exists!\n");
+            return;
+        }
+    }
+    strcpy(cities[cityCount],newCity);
+    cityCount++;
+    printf("City '%s' added successfully!(city ID:%d)\n",newCity,cityCount-1);
+}
+
 
 
