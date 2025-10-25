@@ -13,6 +13,7 @@ void addCity(char cities[MAX_CITIES][50]);
 void showCity(char cities[MAX_CITIES][50]);
 void renameCity(char cities[MAX_CITIES][50]);
 void removeCity(char cities[MAX_CITIES][50]);
+void inputEditDistance(int distance[MAX_CITIES][MAX_CITIES]);
 
 int main()
 {
@@ -25,8 +26,8 @@ int main()
         printf("2.Show City\n");
         printf("3.Rename City\n");
         printf("4.Remove City\n");
-        printf("\n");
-        printf("5.\n");
+        printf("\n--Distance Management--\n");
+        printf("5.Input Or Edit Distance\n");
         printf("6.\n");
         printf("\n");
         printf("7.\n");
@@ -57,6 +58,7 @@ int main()
             break;
 
         case 5:
+            inputEditDistance(distance);
             break;
 
         case 6:
@@ -181,6 +183,45 @@ void removeCity(char cities[MAX_CITIES][50])
     cityCount--;
     printf("City Removed Successfully!\n");
 }
+void inputEditDistance(int distance[MAX_CITIES][MAX_CITIES])
+{
+    int d,src,dest;
+
+    if(cityCount<2)
+    {
+        printf("Need at least two cities to set distances.\n");
+    }
+    printf("Enter city ID of first city:");
+    scanf("%d",&src);
+    printf("Enter city ID of second city:");
+    scanf("%d",&dest);
+
+    if(src<0||src>=cityCount||dest<0||dest>=cityCount)
+    {
+        printf("Invalid city ID!!\n");
+        return;
+    }
+    if(src==dest)
+    {
+        distance[src][src]=0;
+        printf("Distance from a city to itself must be zero.\n");
+        return;
+    }
+    printf("Enter distance between %s and %s(km):",cities[src],cities[dest]);
+    scanf("%d",&d);
+    if(d<0)
+    {
+        printf("Distance must be positive!\n");
+        return;
+    }
+
+    distance[src][dest]=distance[dest][src]=d;
+    printf("Distance Updated!\n");
+}
+
+
+
+
 
 
 
