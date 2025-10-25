@@ -6,11 +6,13 @@
 #define MAX_CITIES 35
 
 char cities[MAX_CITIES][50];
+int distance[MAX_CITIES][MAX_CITIES];
 int cityCount=0;
 
 void addCity(char cities[MAX_CITIES][50]);
 void showCity(char cities[MAX_CITIES][50]);
 void renameCity(char cities[MAX_CITIES][50]);
+void removeCity(char cities[MAX_CITIES][50]);
 
 int main()
 {
@@ -22,7 +24,7 @@ int main()
         printf("1.Add City\n");
         printf("2.Show City\n");
         printf("3.Rename City\n");
-        printf("4.\n");
+        printf("4.Remove City\n");
         printf("\n");
         printf("5.\n");
         printf("6.\n");
@@ -51,6 +53,7 @@ int main()
             break;
 
         case 4:
+            removeCity(cities);
             break;
 
         case 5:
@@ -137,6 +140,48 @@ void renameCity(char cities[MAX_CITIES][50])
     strcpy(cities[cityId],newName);
     printf("City renamed successfully!\n");
 }
+void removeCity(char cities[MAX_CITIES][50])
+{
+    int cityId;
+
+    if(cityCount==0)
+    {
+        printf("No cities available to remove!\n");
+        return;
+    }
+    printf("Enter city ID to remove:");
+    scanf("%d",&cityId);
+
+    if(cityId<0||cityId>=cityCount)
+    {
+        printf("Invalid city ID!\n");
+        return;
+    }
+    for (int i = cityId; i < cityCount - 1; i++)
+    {
+        strcpy(cities[i], cities[i + 1]);
+    }
+
+    for (int i = cityId; i < cityCount - 1; i++)
+    {
+        for (int j = 0; j < cityCount; j++)
+        {
+            distance[i][j] = distance[i + 1][j];
+        }
+    }
+
+    for (int j = cityId; j < cityCount - 1; j++)
+    {
+        for (int i = 0; i < cityCount; i++)
+        {
+            distance[i][j] = distance[i][j + 1];
+        }
+    }
+
+    cityCount--;
+    printf("City Removed Successfully!\n");
+}
+
 
 
 
