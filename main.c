@@ -325,6 +325,29 @@ void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],
         printf("Weight exceeds vehicle capacity of %s!\n",vehicleType[vId-1]);
         return;
     }
+     float dCost = distance[src][dest] * ratePerKm[vId-1] * (1.0 + (float)w/10000.0);
+    float dTime = (float)distance[src][dest] / avgSpeed[vId-1];
+    float fUsed = (float)distance[src][dest] / fuelEfficiency[vId-1];
+    float fCost = fUsed * FUEL_PRICE;
+    float tCost = dCost + fCost;
+    float dprofit = dCost * 0.25;
+    float custCharge = tCost + dprofit;
+
+    sourceCity[deliveryCount] = src;
+    destinationCity[deliveryCount] = dest;
+    weight[deliveryCount] = w;
+    vehicleId[deliveryCount] = vId;
+    deliveryCost[deliveryCount] = dCost;
+    deliveryTime[deliveryCount] = dTime;
+    fuelUsed[deliveryCount] = fUsed;
+    fuelCost[deliveryCount] = fCost;
+    totalCost[deliveryCount] = tCost;
+    profit[deliveryCount] = dprofit;
+    customerCharge[deliveryCount] = custCharge;
+
+    deliveryCount++;
+    printf("Delivery added successfully!\n");
+
 }
 
 
