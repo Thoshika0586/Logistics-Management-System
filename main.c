@@ -45,6 +45,7 @@ void deliveryRecords();
 void findLeastDistanceRoute();
 void loadAndReadFiles();
 void saveUpdatesToFiles();
+void performanceReports();
 
 int main()
 {
@@ -69,8 +70,9 @@ int main()
         printf("\n--File Handling--\n");
         printf("11.Load And Read File\n");
         printf("12.Save Updates To File\n");
-        printf("13.Exit\n");
-        printf("\nEnter your choice(1-13):");
+        printf("13.Performance Reports\n");
+        printf("14.Exit\n");
+        printf("\nEnter your choice(1-14):");
         scanf("%d",&choice);
 
         switch(choice)
@@ -124,6 +126,10 @@ int main()
             break;
 
         case 13:
+            performanceReports();
+            break;
+
+        case 14:
             printf("Exit....!\n");
             break;
 
@@ -131,7 +137,7 @@ int main()
             printf("Invalid choice!");
         }
     }
-    while(choice!=13);
+    while(choice!=14);
 
 
     return 0;
@@ -556,6 +562,65 @@ void saveUpdatesToFiles()
         fclose(deliveriesFile);
         printf("Delivery records saved successfully!\n");
     }
+}
+void performanceReports()
+{
+    if(deliveryCount==0)
+    {
+        printf("No deliveries completed yet!\n");
+        return;
+    }
+    int totalDeliveries=deliveryCount;
+    float totalDistance=0.0;
+    float totalTime=0.0;
+    float totalRevenue=0.0;
+    float totalProfit=0.0;
+
+    float longestRoute=0.0;
+    float shortestRoute=999999.0;
+    int longIndex=-1;
+    int shortIndex=-1;
+
+    for(int i=0; i<deliveryCount; i++)
+    {
+        float dist=distance[sourceCity[i]][destinationCity[i]];
+        totalDistance+=dist;
+        totalTime+=deliveryTime[i];
+        totalRevenue+=customerCharge[i];
+        totalProfit+=profit[i];
+
+        if(dist>longestRoute)
+        {
+            longestRoute=dist;
+            longIndex=i;
+        }
+        if(dist<shortestRoute)
+        {
+            shortestRoute=dist;
+            shortIndex=i;
+        }
+    }
+    float avgTime=totalTime/totalDeliveries;
+
+    printf("\n=============PERFORMANCE REPORTS=================\n");
+    printf("Total deliveries completed: %d\n",totalDeliveries);
+    printf("Total distance completed  : %.2f km\n",totalDistance);
+    printf("Average delivery time     : %.2f hours\n",avgTime);
+    printf("Total revenue             : %.2f LKR\n",totalRevenue);
+    printf("Total profit              : %.2f LKR\n",totalProfit);
+    printf("\n--------------------------------------------------\n");
+
+    if(longIndex!=-1)
+    {
+        printf("Longest route: %s -> %s (%.2f km)\n",cities[sourceCity[longIndex]],cities[destinationCity[longIndex]],longestRoute);
+    }
+    if(shortIndex!=-1)
+    {
+        printf("Shortest route: %s -> %s (%.2f km)\n",cities[sourceCity[shortIndex]],cities[destinationCity[shortIndex]],shortestRoute);
+
+    }
+    printf("\n===================================================================\n");
+
 }
 
 
