@@ -7,6 +7,7 @@
 #define NUM_VEHICLES 3
 #define FUEL_PRICE 310.0  //LKR per liter
 #define MAX_DELIVERIES 50
+#define INF_VALUE 999999
 
 char cities[MAX_CITIES][50];
 int distance[MAX_CITIES][MAX_CITIES];
@@ -42,6 +43,7 @@ void showDistance(int distance[MAX_CITIES][MAX_CITIES]);
 void storeVehicles(char vehicleType[NUM_VEHICLES][20],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
 void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],int distance[MAX_CITIES][MAX_CITIES],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
 void deliveryRecords();
+void findLeastDistanceRoute();
 
 int main()
 {
@@ -62,7 +64,7 @@ int main()
         printf("\n--Delivery Request Handling--\n");
         printf("8.Add Delivery\n");
         printf("9.Delivery Records\n");
-        printf("10.\n");
+        printf("10.Find Least Distance Route\n");
         printf("11.Exit\n");
         printf("\nEnter your choice(1-11):");
         scanf("%d",&choice);
@@ -106,6 +108,7 @@ int main()
             break;
 
         case 10:
+            findLeastDistanceRoute();
             break;
 
         case 11:
@@ -326,7 +329,7 @@ void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],
         printf("Weight exceeds vehicle capacity of %s!\n",vehicleType[vId-1]);
         return;
     }
-     float dCost = distance[src][dest] * ratePerKm[vId-1] * (1.0 + (float)w/10000.0);
+    float dCost = distance[src][dest] * ratePerKm[vId-1] * (1.0 + (float)w/10000.0);
     float dTime = (float)distance[src][dest] / avgSpeed[vId-1];
     float fUsed = (float)distance[src][dest] / fuelEfficiency[vId-1];
     float fCost = fUsed * FUEL_PRICE;
@@ -379,6 +382,87 @@ void deliveryRecords()
         printf("\n======================================================\n");
     }
 }
+void findLeastDistanceRoute()
+{
+    if(cityCount < 2)
+    {
+        printf("Not enough cities.\n");
+        return;
+    }
+
+    int src, dest;
+    printf("Enter source city ID: ");
+    scanf("%d", &src);
+    printf("Enter destination city ID: ");
+    scanf("%d", &dest);
+
+    if(src<0 || src>=cityCount || dest<0 || dest>=cityCount)
+    {
+        printf("Invalid city ID.\n");
+        return;
+    }
+
+    int visited[MAX_CITIES] = {0};
+    int shortestDistance[MAX_CITIES];
+    int previousCity[MAX_CITIES];
+    for(int i=0; i<cityCount; i++)
+    {
+        shortestDistance[i] = INF_VALUE;
+        previousCity[i] = -1;
+    }
+    shortestDistance[src] = 0;
+
+    for(int i=0; i<cityCount; i++)
+    {
+        int minDistance=INF_VALUE;
+        int currentCity = -1;
+        for(int j=0; j<cityCount; j++)
+        {
+            if(!visited[j] && shortestDistance[j]<minDistance)
+            {
+                minDistance=shortestDistance[j];
+                currentCity=j;
+            }
+        }
+        if(currentCity==-1)
+            break;
+        visited[currentCity] = 1;
+        for(int nextCity=0; nextCity<cityCount; nextCity++)
+        {
+            if(!visited[nextCity]&&distance[currentCity][nextCity] > 0)
+            {
+                int newDistance=shortestDistance[currentCity]+distance[currentCity][nextCity];
+                if(newDistance<shortestDistance[nextCity])
+                {
+                    shortestDistance[nextCity]=newDistance;
+                    previousCity[nextCity]=currentCity;
+                }
+            }
+        }
+    }
+    if (shortestDistance[dest] ==INF_VALUE)
+    {
+        printf("No route found between %s and %s!\n", cities[src], cities[dest]);
+        return;
+    }
+    printf("\nShortest distance from %s to %s = %d km\n",cities[src], cities[dest], shortestDistance[dest]);
+    int route[MAX_CITIES];
+    int routeLength = 0;
+    for (int city = dest; city != -1; city = previousCity[city])
+    {
+        route[routeLength++] = city;
+    }
+
+    printf("Route: ");
+    for (int i = routeLength - 1; i >= 0; i--)
+    {
+        printf("%s", cities[route[i]]);
+        if (i > 0)
+            printf(" -> ");
+    }
+}
+
+
 
 
 
