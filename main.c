@@ -44,6 +44,7 @@ void storeVehicles(char vehicleType[NUM_VEHICLES][20],int capacity[NUM_VEHICLES]
 void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],int distance[MAX_CITIES][MAX_CITIES],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
 void deliveryRecords();
 void findLeastDistanceRoute();
+void loadAndReadFiles();
 
 int main()
 {
@@ -65,8 +66,10 @@ int main()
         printf("8.Add Delivery\n");
         printf("9.Delivery Records\n");
         printf("10.Find Least Distance Route\n");
-        printf("11.Exit\n");
-        printf("\nEnter your choice(1-11):");
+        printf("\n--File Handling--\n");
+        printf("11.Load And Read Data\n");
+        printf("12.Exit\n");
+        printf("\nEnter your choice(1-12):");
         scanf("%d",&choice);
 
         switch(choice)
@@ -112,6 +115,10 @@ int main()
             break;
 
         case 11:
+            loadAndReadFiles();
+            break;
+
+        case 12:
             printf("Exit....!\n");
             break;
 
@@ -461,6 +468,55 @@ void findLeastDistanceRoute()
             printf(" -> ");
     }
 }
+void loadAndReadFiles()
+{
+    FILE *routesFile = fopen("routes.txt", "r");
+    if (routesFile != NULL)
+    {
+        fscanf(routesFile, "%d\n", &cityCount);
+
+        for (int i = 0; i < cityCount; i++)
+        {
+            fgets(cities[i], 50, routesFile);
+            cities[i][strcspn(cities[i], "\n")] = 0;
+        }
+
+        for (int i = 0; i < cityCount; i++)
+        {
+            for (int j = 0; j < cityCount; j++)
+            {
+                fscanf(routesFile, "%d", &distance[i][j]);
+            }
+        }
+
+        fclose(routesFile);
+        printf("Routes data loaded successfully!\n");
+    }
+    else
+    {
+        printf("No routes.txt file found.\n");
+    }
+
+    FILE *deliveriesFile = fopen("deliveries.txt", "r");
+    if (deliveriesFile != NULL)
+    {
+        fscanf(deliveriesFile, "%d\n", &deliveryCount);
+
+        for (int i = 0; i < deliveryCount; i++)
+        {
+            fscanf(deliveriesFile, "%d %d %d %d %f %f %f %f %f %f\n",
+                   &sourceCity[i], &destinationCity[i], &weight[i], &vehicleId[i],
+                   &deliveryCost[i], &deliveryTime[i], &fuelUsed[i], &fuelCost[i],
+                   &totalCost[i], &profit[i]);
+        }
+
+        fclose(deliveriesFile);
+        printf("Delivery records loaded successfully!\n");
+    }
+
+}
+
+
 
 
 
