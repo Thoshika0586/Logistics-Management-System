@@ -41,7 +41,7 @@ void inputEditDistance(int distance[MAX_CITIES][MAX_CITIES]);
 void showDistance(int distance[MAX_CITIES][MAX_CITIES]);
 void storeVehicles(char vehicleType[NUM_VEHICLES][20],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
 void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],int distance[MAX_CITIES][MAX_CITIES],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
-
+void deliveryRecords();
 
 int main()
 {
@@ -61,7 +61,7 @@ int main()
         printf("7.Store Vehicles\n");
         printf("\n--Delivery Request Handling--\n");
         printf("8.Add Delivery\n");
-        printf("9.\n");
+        printf("9.Delivery Records\n");
         printf("10.\n");
         printf("11.Exit\n");
         printf("\nEnter your choice(1-11):");
@@ -102,6 +102,7 @@ int main()
             break;
 
         case 9:
+            deliveryRecords();
             break;
 
         case 10:
@@ -347,8 +348,38 @@ void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],
 
     deliveryCount++;
     printf("Delivery added successfully!\n");
-
 }
+void deliveryRecords()
+{
+    if(deliveryCount==0)
+    {
+        printf("No deliveries recorded!\n");
+        return;
+    }
+    for(int i=0; i<deliveryCount; i++)
+    {
+
+        printf("\n\nDelivery number %d\n",i+1);
+        printf("\n======================================================\n");
+        printf("DELIVERY COST ESTIMATION\n");
+        printf("\n------------------------------------------------------\n");
+        printf("From: %s\n",cities[sourceCity[i]]);
+        printf("To: %s\n",cities[destinationCity[i]]);
+        printf("Minimum Distance: %d km\n",distance[sourceCity[i]][destinationCity[i]]);
+        printf("Vehicle: %s\n",vehicleType[vehicleId[i]-1]);
+        printf("Weight: %d kg\n",weight[i]);
+        printf("\n------------------------------------------------------\n");
+        printf("Base Cost: %d*%d*(1+%d/10000)=%.2f LKR\n",distance[sourceCity[i]][destinationCity[i]],ratePerKm[vehicleId[i]-1],weight[i],deliveryCost[i]);
+        printf("Fuel Used: %.2f L\n",fuelUsed[i]);
+        printf("Fuel Cost: %.2f LKR\n",fuelCost[i]);
+        printf("Operational Cost: %.2f LKR\n",totalCost[i]);
+        printf("Profit: %.2f LKR\n",profit[i]);
+        printf("Customer Charge: %.2f LKR\n",customerCharge[i]);
+        printf("Estimated Time: %.2f hours\n",deliveryTime[i]);
+        printf("\n======================================================\n");
+    }
+}
+
 
 
 
