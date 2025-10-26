@@ -6,13 +6,12 @@
 #define MAX_CITIES 35
 #define NUM_VEHICLES 3
 #define FUEL_PRICE 310.0  //LKR per liter
-
+#define MAX_DELIVERIES 50
 
 char cities[MAX_CITIES][50];
 int distance[MAX_CITIES][MAX_CITIES];
 int cityCount=0;
 int deliveryCount=0;
-
 
 char vehicleType[NUM_VEHICLES][20]= {"Van","Truck","Lorry"};
 int capacity[NUM_VEHICLES]= {1000,5000,10000};
@@ -41,6 +40,7 @@ void removeCity(char cities[MAX_CITIES][50]);
 void inputEditDistance(int distance[MAX_CITIES][MAX_CITIES]);
 void showDistance(int distance[MAX_CITIES][MAX_CITIES]);
 void storeVehicles(char vehicleType[NUM_VEHICLES][20],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
+void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],int distance[MAX_CITIES][MAX_CITIES],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES]);
 
 
 int main()
@@ -59,8 +59,8 @@ int main()
         printf("6.Show Distance\n");
         printf("\n--Vehicle Management--\n");
         printf("7.Store Vehicles\n");
-        printf("\n");
-        printf("8.\n");
+        printf("\n--Delivery Request Handling--\n");
+        printf("8.Add Delivery\n");
         printf("9.\n");
         printf("10.\n");
         printf("11.Exit\n");
@@ -98,6 +98,7 @@ int main()
             break;
 
         case 8:
+            addDelivery(cities,vehicleType,distance,capacity,ratePerKm,avgSpeed,fuelEfficiency);
             break;
 
         case 9:
@@ -277,11 +278,57 @@ void storeVehicles(char vehicleType[NUM_VEHICLES][20],int capacity[NUM_VEHICLES]
     for(int i=0; i<NUM_VEHICLES; i++)
     {
         printf("| %-2d | %-7s | %-12d | %-12d    | %-12d    | %-12d          |\n",i+1,vehicleType[i],capacity[i],ratePerKm[i],avgSpeed[i],fuelEfficiency[i]);
-
-
     }
 
 }
+void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],int distance[MAX_CITIES][MAX_CITIES],int capacity[NUM_VEHICLES],int ratePerKm[NUM_VEHICLES],int avgSpeed[NUM_VEHICLES],int fuelEfficiency[NUM_VEHICLES])
+{
+    int src,dest,w,vId;
+    if(deliveryCount>=MAX_DELIVERIES)
+    {
+        printf("Maximum number of deliveries reached!\n");
+        return;
+    }
+    if(cityCount<2)
+    {
+        printf("Not enough cities.\n");
+        return;
+    }
+    printf("Enter source city ID:");
+    scanf("%d",&src);
+    printf("Enter destination city ID:");
+    scanf("%d",&dest);
+
+    if(src<0||src>=cityCount||dest<0||dest>=cityCount||src==dest)
+    {
+        printf("Invalid city ID!!\n");
+        return;
+    }
+    printf("Enter delivery order weight(kg):");
+    scanf("%d",&w);
+
+    if(w<=0)
+    {
+        printf("Weight must be positive!\n");
+        return;
+    }
+    printf("Enter vehicle type for delivery(1-3):");
+    scanf("%d",&vId);
+
+    if(vId<1||vId>NUM_VEHICLES)
+    {
+        printf("Invalid vehicle type!\n");
+        return;
+    }
+    if(w>capacity[vId-1])
+    {
+        printf("Weight exceeds vehicle capacity of %s!\n",vehicleType[vId-1]);
+        return;
+    }
+}
+
+
+
 
 
 
