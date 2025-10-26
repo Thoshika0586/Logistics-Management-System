@@ -509,10 +509,10 @@ void loadAndReadFiles()
 
         for (int i = 0; i < deliveryCount; i++)
         {
-            fscanf(deliveriesFile, "%d %d %d %d %f %f %f %f %f %f\n",
+            fscanf(deliveriesFile, "%d %d %d %d %f %f %f %f %f %f %f\n",
                    &sourceCity[i], &destinationCity[i], &weight[i], &vehicleId[i],
                    &deliveryCost[i], &deliveryTime[i], &fuelUsed[i], &fuelCost[i],
-                   &totalCost[i], &profit[i]);
+                   &totalCost[i], &profit[i], &customerCharge[i]);
         }
 
         fclose(deliveriesFile);
@@ -549,9 +549,9 @@ void saveUpdatesToFiles()
         fprintf(deliveriesFile, "%d\n", deliveryCount);
         for (int i = 0; i < deliveryCount; i++)
         {
-            fprintf(deliveriesFile,"%d %d %d %d %.2f %.2f %.2f %.2f %.2f %.2f\n",sourceCity[i],destinationCity[i],
+            fprintf(deliveriesFile,"%d %d %d %d %.2f %.2f %.2f %.2f %.2f %.2f %.2f\n",sourceCity[i],destinationCity[i],
                     weight[i],vehicleId[i],deliveryCost[i],deliveriesFile[i],
-                    fuelUsed[i],fuelCost[i],totalCost[i],profit[i]);
+                    fuelUsed[i],fuelCost[i],totalCost[i],profit[i],customerCharge[i]);
         }
         fclose(deliveriesFile);
         printf("Delivery records saved successfully!\n");
