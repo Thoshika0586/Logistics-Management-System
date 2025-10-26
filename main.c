@@ -33,7 +33,6 @@ float profit[MAX_DELIVERIES];
 float customerCharge[MAX_DELIVERIES];
 
 
-
 void addCity(char cities[MAX_CITIES][50]);
 void showCity(char cities[MAX_CITIES][50]);
 void renameCity(char cities[MAX_CITIES][50]);
@@ -45,6 +44,7 @@ void addDelivery(char cities[MAX_CITIES][50],char vehicleType[NUM_VEHICLES][20],
 void deliveryRecords();
 void findLeastDistanceRoute();
 void loadAndReadFiles();
+void saveUpdatesToFiles();
 
 int main()
 {
@@ -67,9 +67,10 @@ int main()
         printf("9.Delivery Records\n");
         printf("10.Find Least Distance Route\n");
         printf("\n--File Handling--\n");
-        printf("11.Load And Read Data\n");
-        printf("12.Exit\n");
-        printf("\nEnter your choice(1-12):");
+        printf("11.Load And Read File\n");
+        printf("12.Save Updates To File\n");
+        printf("13.Exit\n");
+        printf("\nEnter your choice(1-13):");
         scanf("%d",&choice);
 
         switch(choice)
@@ -119,6 +120,10 @@ int main()
             break;
 
         case 12:
+            saveUpdatesToFiles();
+            break;
+
+        case 13:
             printf("Exit....!\n");
             break;
 
@@ -126,7 +131,7 @@ int main()
             printf("Invalid choice!");
         }
     }
-    while(choice!=11);
+    while(choice!=13);
 
 
     return 0;
@@ -515,6 +520,44 @@ void loadAndReadFiles()
     }
 
 }
+void saveUpdatesToFiles()
+{
+    FILE *routesFile = fopen("routes.txt", "w");
+    if (routesFile != NULL)
+    {
+        fprintf(routesFile, "%d\n",cityCount);
+        for (int i = 0; i < cityCount; i++)
+        {
+            fprintf(routesFile, "%s\n",cities[i]);
+        }
+        for (int i = 0; i < cityCount; i++)
+        {
+            for(int j=0; j<cityCount; j++)
+            {
+                fprintf(routesFile,"%d",distance[i][j]);
+            }
+            fprintf(routesFile, "\n");
+        }
+        fclose(routesFile);
+        printf("Routes data saved successfully!\n");
+    }
+
+
+    FILE *deliveriesFile = fopen("deliveries.txt", "w");
+    if (deliveriesFile != NULL)
+    {
+        fprintf(deliveriesFile, "%d\n", deliveryCount);
+        for (int i = 0; i < deliveryCount; i++)
+        {
+            fprintf(deliveriesFile,"%d %d %d %d %.2f %.2f %.2f %.2f %.2f %.2f\n",sourceCity[i],destinationCity[i],
+                    weight[i],vehicleId[i],deliveryCost[i],deliveriesFile[i],
+                    fuelUsed[i],fuelCost[i],totalCost[i],profit[i]);
+        }
+        fclose(deliveriesFile);
+        printf("Delivery records saved successfully!\n");
+    }
+}
+
 
 
 
